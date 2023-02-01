@@ -54,8 +54,13 @@ const addTodo = ( description ) => {
  * Función que se encarga de cambiar el estado de completado de un Todo
  * @param {String} todoId Id del Todo
  */
-const toggleTodo = ( todoId) => {
-  throw new Error('No implementado aún');
+const toggleTodo = ( todoId) => { // es muchísimo mejor encontrarlo con un find, porque esta operación es de complejidad O(n)
+  state.todos = state.todos.map( todo => {
+    if( todo.id === todoId ){
+      todo.id = !todo.id;
+    }
+    return todo;
+  })
 }
 
 const deleteTodo = ( todoId ) => {
