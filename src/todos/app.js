@@ -10,15 +10,18 @@ const ElementIDs = {
   cantidadPendientes: '#pending-count',
 }
 
+
+
 /**
  * Función que se encarga de insertar el contenido HTML en un div del index.html
  * @param {String} elementId Elemento identificador para insertar el contenido en el html 
  */
-export const App = ( elementId ) => {
+export const App = ( elementId ) => { 
 
   const displayTodos = () => {
     const todos = todoStore.getTodos( todoStore.getCurrentFilter() );
-    renderTodos( ElementIDs.TodoList, todos );
+    renderTodos( ElementIDs.TodoList, todos ); 
+    document.querySelector( ElementIDs.cantidadPendientes ).innerHTML = todoStore.getTodosPendings();
   }
 
   (() => {

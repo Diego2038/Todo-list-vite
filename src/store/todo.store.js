@@ -91,6 +91,10 @@ const getCurrentFilter = () => {
   return state.filter;
 }
 
+const getTodosPendings = () => {
+  return getTodos( Filters.Pending ).length;
+}
+
 
 export default {
   addTodo,
@@ -98,6 +102,7 @@ export default {
   deleteTodo,
   getCurrentFilter,
   getTodos,
+  getTodosPendings,
   initStore,
   loadStore,
   setFilter,
