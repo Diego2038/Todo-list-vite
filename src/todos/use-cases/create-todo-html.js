@@ -6,9 +6,22 @@
  */
 export const createTodoHTML = ( todo ) => {
   if ( !todo ) throw 'A Todo object is required';
+
+  const { id, description, done } = todo;
   
-  const html = `<h1>${ todo.description }</h1>`;
+  const html = ` 
+    <div class="view">
+      <input class="toggle" type="checkbox" checked>
+      <label>${ description }</label>
+      <button class="destroy"></button>
+    </div>
+    <input class="edit" value="Create a TodoMVC template">`;
+
+  
   const liElement = document.createElement('li');
-  liElement.innerHTML = html;
+  liElement.innerHTML = html; 
+  if ( todo.done ) liElement.classList.add( 'completed' );
+  liElement.setAttribute('data-id', id);
+  
   return liElement;
 }
