@@ -6,7 +6,7 @@ const Filters = {
   Pending: 'Pending'
 }
 
-const store = {
+const state = {
 
   todos: [
     new Todo('Piedra del amor'),
@@ -18,19 +18,36 @@ const store = {
 
 const initStore = () => {
   console.log('Inicializando 🥑');
-  console.log( store );
+  console.log( state );
 }
 
 const loadStore = () => {
   throw new Error('No implementado aún');
 } 
 
+const getTodos = ( filter = Filters.All ) => {
+  switch (filter) {
+    case Filters.All:
+      return [...state.todos];
+    
+    case Filters.Completed:
+      return state.todos.filter( todo => todo.done );
+
+    case Filters.Pending:
+      return state.todos.filter( todo => !todo.done )
+    
+    default:
+      throw new Error(`Option ${ filter } is not valid.`)
+  }
+}
+
 /**
  * Función que crea un nuevo Todo
  * @param {String} description Descripción del Todo
  */
 const addTodo = ( description ) => {
-  throw new Error('No implementado aún');
+  if ( !description ) throw new Error('Description is required');
+  state.todos.push( new Todo( description ) );
 }
 
 /**
@@ -42,19 +59,19 @@ const toggleTodo = ( todoId) => {
 }
 
 const deleteTodo = ( todoId ) => {
-  throw new Error('No implementado aún');
+  state.todos = state.todos.filter( todo => todo.id !== todoId );
 }
 
 const deleteCompleted = () => {
-  throw new Error('No implementado aún');
+  state.todos = state.todos.filter( todo => !todo.done )
 }
 
 const setFilter = ( newFilter = Filters.All ) => {
-  throw new Error('No implementado aún');
+  state.filter = newFilter;
 }
 
 const getCurrentFilter = () => {
-  throw new Error('No implementado aún');
+  return state.filter;
 }
 
 
@@ -63,6 +80,7 @@ export default {
   deleteCompleted,
   deleteTodo,
   getCurrentFilter,
+  getTodos,
   initStore,
   loadStore,
   setFilter,
