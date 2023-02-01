@@ -4,7 +4,9 @@ import { renderTodos } from './use-cases';
 
 const ElementIDs = {
   TodoList: '.todo-list',
-  TodoInput: '#new-todo-input'
+  TodoInput: '#new-todo-input',
+  ClearCompleted: '.clear-completed',
+  botonesFiltro: '.filtro'
 }
 
 /**
@@ -29,6 +31,16 @@ export const App = ( elementId ) => {
   // Referencia HTML
   const input = document.querySelector( ElementIDs.TodoInput );
   const todoListUL = document.querySelector( ElementIDs.TodoList );
+  const clearCompleted = document.querySelector( ElementIDs.ClearCompleted );
+  const [ opcTodos, opcPendientes, opcCompletados ] = document.querySelectorAll( ElementIDs.botonesFiltro );
+
+  // funcs
+
+  const quitarFiltros = () => {
+    opcTodos.classList.remove('selected');
+    opcPendientes.classList.remove('selected');
+    opcCompletados.classList.remove('selected');
+  }
 
   // Listeners
   input.addEventListener('keyup', ( event ) => {
@@ -48,6 +60,35 @@ export const App = ( elementId ) => {
     } else { 
       todoStore.toggleTodo( elemento.getAttribute('data-id'));
     } 
+    displayTodos();
+  })
+
+  clearCompleted.addEventListener( 'click', ( event ) => {
+    todoStore.deleteCompleted();
+    displayTodos();
+  })
+
+  opcTodos.addEventListener( 'click', ( event ) => {
+    todoStore.setFilter('all')
+    quitarFiltros();
+    event.target.classList.add('selected');
+    // console.log( todoStore.getCurrentFilter())
+    displayTodos();
+  })
+
+  opcPendientes.addEventListener( 'click', ( event ) => {
+    todoStore.setFilter('Completed')
+    quitarFiltros();
+    event.target.classList.add('selected');
+    // console.log( todoStore.getCurrentFilter())
+    displayTodos();
+  })
+
+  opcCompletados.addEventListener( 'click', ( event ) => {
+    todoStore.setFilter('Pending')
+    quitarFiltros();
+    event.target.classList.add('selected');
+    // console.log( todoStore.getCurrentFilter())
     displayTodos();
   })
 
