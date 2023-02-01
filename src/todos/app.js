@@ -1,12 +1,13 @@
 import html from './app.html?raw';
-import todoStore from '../store/todo.store';
+import todoStore, { Filters } from '../store/todo.store';
 import { renderTodos } from './use-cases';
 
 const ElementIDs = {
   TodoList: '.todo-list',
   TodoInput: '#new-todo-input',
   ClearCompleted: '.clear-completed',
-  botonesFiltro: '.filtro'
+  botonesFiltro: '.filtro',
+  cantidadPendientes: '#pending-count',
 }
 
 /**
@@ -32,7 +33,7 @@ export const App = ( elementId ) => {
   const input = document.querySelector( ElementIDs.TodoInput );
   const todoListUL = document.querySelector( ElementIDs.TodoList );
   const clearCompleted = document.querySelector( ElementIDs.ClearCompleted );
-  const [ opcTodos, opcPendientes, opcCompletados ] = document.querySelectorAll( ElementIDs.botonesFiltro );
+  const elementsFiltroLI = document.querySelectorAll( ElementIDs.botonesFiltro );
 
   // funcs
 
@@ -68,28 +69,28 @@ export const App = ( elementId ) => {
     displayTodos();
   })
 
-  opcTodos.addEventListener( 'click', ( event ) => {
-    todoStore.setFilter('all')
-    quitarFiltros();
-    event.target.classList.add('selected');
-    // console.log( todoStore.getCurrentFilter())
-    displayTodos();
+  elementsFiltroLI.forEach( element =>  {
+
+    element.addEventListener( 'click', ( element ) => {
+      elementsFiltroLI.forEach( el => el.classList.remove('selected'));
+      element.target.classList.add('selected');
+      // console.log( element.target.id )
+      switch ( element.target.id) {
+        case 'opcTodos':
+          todoStore.setFilter( Filters.All );
+          break;
+        case 'opcPendientes':
+          todoStore.setFilter( Filters.Pending );
+          break;
+        case 'opcCompletados':
+          todoStore.setFilter( Filters.Completed );
+          break;
+        default:
+          throw new Error('Error - set Filter not valided');
+      }
+      displayTodos();
+    })
   })
 
-  opcPendientes.addEventListener( 'click', ( event ) => {
-    todoStore.setFilter('Completed')
-    quitarFiltros();
-    event.target.classList.add('selected');
-    // console.log( todoStore.getCurrentFilter())
-    displayTodos();
-  })
-
-  opcCompletados.addEventListener( 'click', ( event ) => {
-    todoStore.setFilter('Pending')
-    quitarFiltros();
-    event.target.classList.add('selected');
-    // console.log( todoStore.getCurrentFilter())
-    displayTodos();
-  })
 
 }
