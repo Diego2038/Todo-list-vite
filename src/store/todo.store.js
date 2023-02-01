@@ -57,7 +57,7 @@ const addTodo = ( description ) => {
 const toggleTodo = ( todoId) => { // es muchísimo mejor encontrarlo con un find, porque esta operación es de complejidad O(n)
   state.todos = state.todos.map( todo => {
     if( todo.id === todoId ){
-      todo.id = !todo.id;
+      todo.done = !todo.done;
     }
     return todo;
   })

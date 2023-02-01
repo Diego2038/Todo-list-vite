@@ -26,13 +26,24 @@ export const App = ( elementId ) => {
     displayTodos();
   })();
 
+  // Referencia HTML
   const input = document.querySelector( ElementIDs.TodoInput );
+  const todoListUL = document.querySelector( ElementIDs.TodoList );
 
+  // Listeners
   input.addEventListener('keyup', ( event ) => {
     if ( event.keyCode !== 13) return; // Debe presionar enter
     if ( event.target.value.trim().length === 0) return;  
 
     todoStore.addTodo( event.target.value.trim() );
+    event.target.value = '';
+    displayTodos();
+  })
+
+  todoListUL.addEventListener('click', ( event ) => {
+    const elemento = event.target.closest('[data-id]');
+    // console.log( elemento.getAttribute('data-id') );
+    todoStore.toggleTodo( elemento.getAttribute('data-id'));
     displayTodos();
   })
 
