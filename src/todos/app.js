@@ -41,7 +41,7 @@ export const App = ( elementId ) => {
   })
 
   todoListUL.addEventListener('click', ( event ) => {
-
+    // NOTA: Puedes tener más de un addEventListener del mismo tipo
     const elemento = event.target.closest('[data-id]');
     if ( event.target.classList.contains('destroy')) {
       todoStore.deleteTodo( elemento.getAttribute('data-id'));

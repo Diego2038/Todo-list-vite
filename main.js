@@ -4,5 +4,5 @@ import todoStore from './src/store/todo.store';
 
 console.log('Hola mundo');
 
-App('#app');
 todoStore.initStore();
+App('#app');
