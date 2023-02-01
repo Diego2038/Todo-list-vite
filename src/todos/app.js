@@ -1,6 +1,6 @@
 import html from './app.html?raw';
 import todoStore, { Filters } from '../store/todo.store';
-import { renderTodos } from './use-cases';
+import { renderPending, renderTodos } from './use-cases';
 
 const ElementIDs = {
   TodoList: '.todo-list',
@@ -21,7 +21,11 @@ export const App = ( elementId ) => {
   const displayTodos = () => {
     const todos = todoStore.getTodos( todoStore.getCurrentFilter() );
     renderTodos( ElementIDs.TodoList, todos ); 
-    document.querySelector( ElementIDs.cantidadPendientes ).innerHTML = todoStore.getTodosPendings();
+    updateNumberPendings();
+  }
+
+  const updateNumberPendings = () => {
+    renderPending( ElementIDs.cantidadPendientes );
   }
 
   (() => {
@@ -37,15 +41,7 @@ export const App = ( elementId ) => {
   const todoListUL = document.querySelector( ElementIDs.TodoList );
   const clearCompleted = document.querySelector( ElementIDs.ClearCompleted );
   const elementsFiltroLI = document.querySelectorAll( ElementIDs.botonesFiltro );
-
-  // funcs
-
-  const quitarFiltros = () => {
-    opcTodos.classList.remove('selected');
-    opcPendientes.classList.remove('selected');
-    opcCompletados.classList.remove('selected');
-  }
-
+  
   // Listeners
   input.addEventListener('keyup', ( event ) => {
     if ( event.keyCode !== 13) return; // Debe presionar enter
